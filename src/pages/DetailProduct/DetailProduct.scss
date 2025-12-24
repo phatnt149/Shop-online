@@ -1,0 +1,82 @@
+.detailProduct{
+    width: 90vw;
+    margin: 20px auto;
+    &__image{
+        width: 80%;
+        height: auto;
+        aspect-ratio: 4/4;
+        padding-left: 35px;
+        & img{
+            width: 100%;
+            height: 100%;
+            border-radius: 15px;
+        }
+    }
+    &__infor{
+        display: flex;
+        flex-direction: column;
+        // align-items: center;
+        justify-content: space-between;
+        align-items: start;
+        // background-color: aqua;
+        width: 100%;
+        height: 100%;
+        &__name{
+            font-size: 2rem;
+            margin-bottom: 40px;
+            width: 100%;
+        }
+        &__color{
+            margin-bottom: 20px;
+        }
+        &__size{
+            margin-bottom: 20px;
+        }
+        &__select{
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            width: 100%;
+            margin-bottom: 40px;
+            & .buttonAdd{
+                width: 200px;
+                height: 50px;
+            }
+            & .buttonHeart{
+                width: 50px;
+                height: 50px;
+            }
+            & .ant-input-number-input{
+                background-color: white!important;
+            }
+        }
+        &__collapse{
+            width: 90%;
+            background-color: #f6f3e4ea;
+            border-radius: 20px;
+            & .ant-collapse-title{
+                color: black;
+                font-size: 1rem;
+            }
+            & ul li{
+                text-align: left;
+                color: black;
+            }
+        }
+    }
+}
+
+.detailProduct_borderBottom{
+    border-bottom: 1px solid #F6F3E4;
+    width: 41vw;
+    margin-bottom: 30px;
+}
+
+@media screen and (max-width: 992px) {
+  /* CSS cho màn hình nhỏ hơn 768px */
+    .detailProduct__infor{
+        margin: 10px auto!important;
+        width: 80%;
+    }
+
+}

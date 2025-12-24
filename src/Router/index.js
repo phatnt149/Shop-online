@@ -14,6 +14,7 @@ import Contact from "../pages/Contact";
 
 
 import LayoutDefaul from "../components/LayoutDefaul";
+import DetailProduct from "../pages/DetailProduct";
 
 
 
@@ -29,6 +30,10 @@ export const router =[
             {
                 path:"new-products",
                 element:<ProductNew/>,
+            },
+            {
+                path: "new-products/:id",
+                element: <DetailProduct />, // trang chi tiết
             },
             {
                 path:"uniform",

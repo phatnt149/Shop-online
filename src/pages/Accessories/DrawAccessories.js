@@ -1,6 +1,7 @@
 /* eslint-disable jsx-a11y/alt-text */
 import { Col, Row } from "antd";
 import { useEffect, useState } from "react";
+import { formatVND } from "../../components/formatVND";
 function DrawAccessories(){
     const SUPABASE_URL = "https://jimndansgmlgpbmwjaor.supabase.co";
     const SUPABASE_ANON_KEY = "sb_publishable_KZce97tls9-ratz4EzFmkg_B_NJ2cg_";
@@ -30,8 +31,8 @@ function DrawAccessories(){
                 <Col xxl={6} xl={6} lg={8} md={12} sm={12} xs={12} className="product__item" key={item.id}>
                     <div className="product__image"><img src={`${item.thumbnail}`}/></div>
                     <div className="product__price">
-                        <div className="product__price--new">{item.price-(item.price*item.discount)/100}đ</div>
-                        <div className="product__price--old">{item.price}đ</div>
+                        <div className="product__price--new">{formatVND(item.price - (item.price * item.discount) / 100)}</div>
+                        <div className="product__price--old">{formatVND(item.price)}</div>
                     </div>
                     <div className="product__title">{item.name}</div>
                 </Col>

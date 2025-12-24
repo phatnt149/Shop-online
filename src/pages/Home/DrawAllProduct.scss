@@ -3,7 +3,6 @@
     margin: 20px auto;
     padding: 20px;
     margin-top: 50px;
-
     &__image{
         width: 100%;
         height: auto;
@@ -19,6 +18,7 @@
     &__price{
         display: flex;
         margin-top: 10px;
+        color: white;
         &--new{
             margin-right: 30px;
             font-size: 0.875rem;
@@ -36,8 +36,10 @@
         text-align: left;
         font-size: 1rem;
         font-weight: 300;
+        color: white;
     }
     &__item{
         cursor: pointer;
+        width: 100%;
     }
 }
