@@ -252,4 +252,19 @@ a.active{
  .titleSection{
     font-size: 2rem;
  }
+ .menu__personal__userName{
+    margin-left: -200px;
+    margin-bottom: 30px;
+ }
+ .product{
+    width: 100vw;
+    padding: 0px;
+    margin: 0px;
+    &__price{
+        margin-left: 10px;
+    }
+    &__title{
+        margin-left: 10px;
+    }
+ }
 }
