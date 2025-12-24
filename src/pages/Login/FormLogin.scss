@@ -1,7 +1,7 @@
 .form{
     width: 30vw;
     margin: 10px auto;
-    background-color: white;
+    background-color:rgba(255, 255, 255, 0.212);
     border-radius: 15px;
     box-shadow: 0 0 6px 0 rgba(0,0,0,0.1);
 }
@@ -9,10 +9,14 @@
     font-size: 1.5rem;
     margin-right: 100px;
     margin-left: 0px;
+    color: #1677ff!important;
+
 }
 .labelResigter{
     font-size: 1.5rem;
     margin-left: 20px;
+    color: #1677ff!important;
+
 }
 
 
@@ -37,11 +41,11 @@
 
     &__phone input{
         background-color: white!important;
-        border-color: rgb(199, 197, 197)!important;
         padding-top: 20px!important;
         padding-bottom: 20px!important;
         border-top: 0px!important;
     }
+
     &__phoneResigter input{
         background-color: white!important;
         border-color: rgb(199, 197, 197)!important;

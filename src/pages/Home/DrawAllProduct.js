@@ -26,7 +26,7 @@ function DrawAllProduct(){
     return(
         <>
         <div className="product">
-            <Row gutter={[16, 16]} key={1}>
+            <Row gutter={[40, 40]} key={1}>
             {dataProduct && dataProduct.map(item=>(
                 <Col xxl={6} xl={6} lg={8} md={12} sm={12} xs={12} className="product__item" key={item.id}>
                     <div className="product__image"><img src={`${item.thumbnail}`}/></div>

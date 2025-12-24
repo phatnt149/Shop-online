@@ -10,6 +10,10 @@ body{
     color: white !important;;
     background-color: #F6F3E4;
 }
+html, body {
+  max-width: 100%;
+  overflow-x: hidden;
+}
 
 .footer{
     background-color: #F6F3E4;
@@ -17,6 +21,7 @@ body{
         text-align: center;
         padding: 20px;
         font-size: 0.775rem;
+        color: #212121;
     }
     &__infor{
         display: flex;
@@ -255,17 +260,12 @@ a.active{
  .menu__personal__userName{
     margin-left: -200px;
     margin-bottom: 30px;
+    color: #212121;
  }
  .product{
-    width: 100vw;
-    padding: 0px;
+    width: calc(100% - 20px);
+    padding: 0 10px;
     margin: 0px;
-    &__price{
-        margin-left: 10px;
-    }
-    &__title{
-        margin-left: 10px;
-    }
  }
 }
 
