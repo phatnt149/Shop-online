@@ -1,0 +1,67 @@
+.form{
+    width: 30vw;
+    margin: 10px auto;
+    background-color: white;
+    border-radius: 15px;
+    box-shadow: 0 0 6px 0 rgba(0,0,0,0.1);
+}
+.labelLogin{
+    font-size: 1.5rem;
+    margin-right: 100px;
+    margin-left: 0px;
+}
+.labelResigter{
+    font-size: 1.5rem;
+    margin-left: 20px;
+}
+
+
+.element{
+    &__email input{
+    background-color: white!important;
+    border-color: rgb(199, 197, 197)!important;
+    }
+    & input:hover{
+    border-color: #1677ff!important;
+    }
+    padding: 20px;
+
+    &__pass input{
+        background-color: white!important;
+        border-color: rgb(199, 197, 197)!important;
+    }
+    &__passrepeat input{
+        background-color: white!important;
+        border-color: rgb(199, 197, 197)!important;
+    }
+
+    &__phone input{
+        background-color: white!important;
+        border-color: rgb(199, 197, 197)!important;
+        padding-top: 20px!important;
+        padding-bottom: 20px!important;
+        border-top: 0px!important;
+    }
+    &__phoneResigter input{
+        background-color: white!important;
+        border-color: rgb(199, 197, 197)!important;
+        padding-top: 20px!important;
+        padding-bottom: 20px!important;
+    }
+    &__pass{
+        margin-top: 0px;
+    }
+    &__pass input{
+        padding-inline-start: 0px!important;
+    }
+    &__passrepeat input{
+        padding-inline-start: 0px!important;
+    }
+    &__button button{
+        width: 100%;
+        padding: 20px;
+    }
+    &__forget{
+        margin-bottom: 50px;
+    }
+}

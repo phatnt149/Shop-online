@@ -1,0 +1,249 @@
+@import url('https://fonts.googleapis.com/css2?family=Montserrat:ital,wght@0,100..900;1,100..900&family=Roboto:ital,wght@0,100..900;1,100..900&display=swap');
+html {
+  font-size: 16px;
+}
+.header{
+    background-color: #F6F3E4;
+}
+body{
+    font-family: "Roboto", sans-serif;
+    color:black;
+    background-color: #F6F3E4;
+}
+
+.footer{
+    background-color: #F6F3E4;
+    &__end{
+        text-align: center;
+        padding: 20px;
+        font-size: 0.775rem;
+    }
+    &__infor{
+        display: flex;
+        text-align: center;
+        justify-content: space-between;
+        background-color: #212121;
+        color: white;
+        font-size: 1rem;
+    }
+    &__infor__item{
+        width: calc(100vw/4 - 100px);
+        padding: 20px 80px;
+        font-weight: 200;
+        border-right: 1px solid #5a535391;
+        &__icon{
+            font-size: 2rem;
+        }
+        &__title--prime{
+            font-size: 1rem;
+        }
+        &__title--sub{
+            font-size: 0.875rem;
+        }
+    }
+
+    &__link{
+        display: flex;
+        justify-content: space-between;
+        padding: 80px 50px 20px 50px;
+        &__product{
+            display: flex;
+            flex-direction: column;
+            text-align: center;
+            padding: 0px 50px;
+            & a{
+                margin-bottom: 10px;
+                color: #212121 ;
+            }
+        }
+        &__store{
+            display: flex;
+            flex-direction: column;
+            text-align: center;
+            padding: 0px 50px;
+            & a{
+                margin-bottom: 10px;
+                color: #212121 ;
+            }
+        }
+         &__social__GroupIcon{
+            display: flex;
+            padding: 0px 50px;
+            &__icon a{
+                font-size: 2rem;
+                color: #212121;
+                margin-left: 10px;
+                cursor: pointer;
+            }
+        }
+        &__social{
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            &__image{
+                width: 100px;
+                height: auto;
+                aspect-ratio: 16/9;
+                & img{
+                    width: 100%;
+                    height: 100%;
+                }
+            }
+        }
+    }
+}
+.main{
+    text-align: center;
+    font-size: 1rem;
+}
+a{
+    text-decoration: none;
+}
+a.active{
+    color: white;
+}
+
+.LayoutDefaul{
+    height: 100vh;
+    display: flex;
+    flex-direction: column;
+    justify-content: space-between;
+}
+.menu{
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    padding: 10px 30px;
+    &__logo{
+        width: 150px;
+        height: 50px;
+        & img{
+            width: 100%;
+            height: 100%;
+        }
+    }
+    &__item{
+        width: 75vw;
+        font-size: 1.2rem;
+    }
+    &__item ul{
+        display: flex;
+        justify-content: space-between;
+        & li{
+            margin-right: 50px;
+        }
+    }
+
+    &__default{
+        display: flex;
+        align-items: center;
+        & li{
+            list-style-type: none;
+            & a{
+                color: black;
+                font-weight: 500;
+            }
+        }
+        & li:hover{
+           border-bottom: 3px solid black;
+           scale: 1.2;
+           transition: all .2s ease-in-out;
+        }
+    }
+    &__personal{
+        display: flex;
+        align-items: center;
+        & li {
+            list-style-type: none;
+            & a{
+                color: black;
+                font-weight: 500;
+            }
+        }
+        & li:hover{
+           border-bottom: 3px solid black;
+           scale: 1.2;
+           transition: all .2s ease-in-out;
+        }
+        &__icon{
+            font-size: 1.5rem;
+        }
+        &__userName{
+            font-size: 0.875rem;
+            align-self: flex-start!important;
+            width: 200px;
+            margin-top: -20px;
+            margin-left: -110px;
+        }
+         &__userName:hover{
+            border-bottom: 0px!important;
+            scale: 1!important;
+        }
+    }
+}
+
+#borderBottom{
+    width: 80vw;
+    border: 1px solid #d6cece6e;
+    margin: 0px auto;
+}
+
+.titleSection{
+    font-size: 2rem;
+    font-weight: 600;
+    margin-bottom: 20px;
+}
+
+@media screen and (max-width: 768px) {
+  /* CSS cho màn hình nhỏ hơn 768px */
+ .footer__link{
+    flex-direction: column;
+    padding-top: 20px;
+
+ }
+  .footer__infor{
+    justify-content: center;
+    flex-wrap: wrap;
+  }
+ .footer__infor__item{
+    width: calc(100vw/4);
+    padding: 0px;
+    margin: 20px;
+    border-right: 0px;
+    &__title--prime{
+        font-size: 0.7rem;
+    }
+    &__title--sub{
+        font-size: 0.6rem;
+    }
+ }
+ .footer__link__social__GroupIcon__icon a{
+    font-size: 1.5rem;
+ }
+ .menu__default{
+    display: none;
+ }
+
+ .form{
+    width: 100vw;
+ }
+ .menu__logo{
+    width: 100vw;
+    height: auto;
+    aspect-ratio: 16/9;
+    & img{
+        width: 100%;
+        height: 100%;
+    }
+ }
+ .Caroussel{
+    width: 100vw;
+    & img{
+        width: 100%;
+        height: 100%;
+    }
+ }
+ .menu__personal{
+    margin-left: 80px;
+ }
+}

@@ -1,0 +1,48 @@
+.updateProfile{
+   width: 40vw;
+   margin: 20px auto;
+   background-color: #8E9AAF;
+   padding: 30px;
+   border-radius: 20px;
+   color: white;
+   &__title{
+    font-size: 1.8rem;
+    font-weight: 300;
+   }
+}
+
+.element{
+    &__full_name input{
+        background-color: white!important;
+    }
+
+    &__address input{
+        background-color: white!important;
+    }
+
+     &__phone input{
+       padding: 10px!important;
+    }
+
+    &__update button{
+       background-color: #2F3E46!important;
+       width: 100%!important;
+    }
+    &__update button:hover{
+       background-color: #5A4A42!important;
+    }
+     &__changePass button{
+       color: white;
+       background-color: transparent;
+       float: right;
+       margin-top: 0px;
+    }
+
+    &__pass--old input{
+        background-color: white!important;
+    }
+
+    &__pass--new input{
+        background-color: white!important;
+    }
+}
