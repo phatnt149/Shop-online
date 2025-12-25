@@ -1,0 +1,18 @@
+.Cart{
+    & .ant-tabs-tab{
+        background-color: white;
+        min-height: 20vh;
+        min-width: 10vw;
+        font-size: 1rem;
+        margin-top: 0px!important;
+    }
+    & .ant-tabs-tab:hover{
+        background-color: #F6F3E4;
+    }
+    & .ant-tabs-tab.ant-tabs-tab-active{
+        background-color: #F6F3E4;
+    }
+    & .ant-tabs-tab-btn{
+        color: black!important;
+    }
+}

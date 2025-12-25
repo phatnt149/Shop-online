@@ -1,4 +1,4 @@
-function isNewProduct(createdAt, maxDays = 2) {
+function isNewProduct(createdAt, maxDays = 4) {
   const createdDate = new Date(createdAt); // thời điểm tạo
   const now = new Date();                  // thời điểm hiện tại
 

@@ -13,7 +13,7 @@ function ElementLogin(){
     const dispatch = useDispatch();
     const handleLogin=()=>{
         if(userData){
-            dispatch(loginSixDo(userData.full_name))
+            dispatch(loginSixDo(userData.full_name, userData.id))
         }else{
             openNotificationWithIcon('error', "Sai số điện thoại hoặc mật khẩu")
         }

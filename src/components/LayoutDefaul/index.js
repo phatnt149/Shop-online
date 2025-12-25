@@ -29,14 +29,6 @@ function LayoutDefaul(){
     })}
     return(
         <>
-        <div className="video-bg">
-        <video autoPlay muted loop playsInline preload="auto">
-        <source
-            src="https://cdn.pixabay.com/video/2020/11/01/54032-476396483_large.mp4"
-            type="video/mp4"
-        />
-        </video>
-    </div>
         {contextHolder}
         <div className='LayoutDefaul'>
             <header className="header">
@@ -59,7 +51,7 @@ function LayoutDefaul(){
                                 <li>
                                     <NavLink to={'/profile'}><div className="menu__personal__icon"><UserOutlined /></div></NavLink>
                                 </li>
-                                 <li className="menu__personal__userName">Xin chào {userLogin} !</li>
+                                 <li className="menu__personal__userName">Xin chào {userLogin.name} !</li>
                                 </>
                             ):(<>
                             <li><NavLink to={'/login'}><LoginOutlined /></NavLink></li>

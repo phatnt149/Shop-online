@@ -15,6 +15,7 @@ import Contact from "../pages/Contact";
 
 import LayoutDefaul from "../components/LayoutDefaul";
 import DetailProduct from "../pages/DetailProduct";
+import Orders from "../pages/Orders";
 
 
 
@@ -46,6 +47,10 @@ export const router =[
             {
                 path:"cart",
                 element:<Cart/>,
+            },
+            {
+                path:"orders",
+                element:<Orders/>,
             },
              {
                 path:"login",

@@ -8,7 +8,7 @@ export const useCheckLogin = (phone, password) => {
 
   useEffect(() => {
 
-    fetch(`${SUPABASE_URL}/rest/v1/users?phone=eq.${phone}&password=eq.${password}&select=full_name`, {
+    fetch(`${SUPABASE_URL}/rest/v1/users?phone=eq.${phone}&password=eq.${password}&select=full_name,id`, {
       method: "GET",
       headers: {
         "apikey": SUPABASE_ANON_KEY,

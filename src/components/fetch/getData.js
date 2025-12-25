@@ -14,3 +14,17 @@ export const getData = async (id)=>{
     const result = await res.json();
     return result;
 }
+
+export const getDataUser = async (id)=>{
+    const res = await fetch(`${SUPABASE_URL}/rest/v1/users?id=eq.${id}&select=full_name,phone,email,address`, {
+            method: "GET",
+            headers: {
+                "apikey": SUPABASE_ANON_KEY,
+                "Authorization": `Bearer ${SUPABASE_ANON_KEY}`,
+                "Content-Type": "application/json"
+            }
+            })
+
+    const result = await res.json();
+    return result;
+}

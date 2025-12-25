@@ -2,7 +2,11 @@
 export const reducerLogin = (state = null, action)=>{
     switch (action.type) {
         case "LOGIN":
-        return action.name;
+        
+        return {
+            name: action.name,
+            id: action.id
+        };
 
         case "LOGOUT" :
         return null

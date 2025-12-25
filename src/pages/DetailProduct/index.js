@@ -1,15 +1,20 @@
 /* eslint-disable jsx-a11y/alt-text */
-import { useParams } from 'react-router-dom';
+import { useNavigate, useParams } from 'react-router-dom';
 import { getData } from '../../components/fetch/getData';
 import { useEffect, useState } from 'react';
-import { Button, Col, Collapse, InputNumber, Radio, Row } from 'antd';
+import { Button, Col, Collapse, InputNumber, notification, Radio, Row } from 'antd';
 import { HeartOutlined } from '@ant-design/icons';
 import SubDetail from '../../components/SubDetail';
+import {useDispatch, useSelector} from "react-redux"
 import "./DetailProduct.scss"
+import { addToCart } from '../../components/actions';
 function DetailProduct(){
     const param = useParams();
-    console.log(param.id)
     const [data, setData]= useState([]);
+    const user = useSelector( state => state.reducerLogin);
+    // console.log(user.id)
+    const [dataOders, setDataOders]= useState({quanlity: 1, id: param.id});
+    const dispatch = useDispatch();
     useEffect(()=>{
         const fet=async()=>{
             const result = await getData(param.id);
@@ -17,19 +22,28 @@ function DetailProduct(){
         }
         fet()
     },[])
-    console.log(data[0])
-    const onChange = value => {
+    const onChange = (value) => {
+        setDataOders({
+            ...dataOders,
+            quanlity : value
+        })
     console.log('changed', value);
     };
+
     const sharedProps = {
         mode: 'spinner',
         min: 1,
         max: 10,
-        defaultValue: 3,
+        defaultValue: 1,
         onChange,
-        style: { width: 100, height: 35, marginBottom: -14, backgroundColor: "#ddd"},
-        };
-    
+        style: {
+            width: 100,
+            height: 35,
+            marginBottom: -14,
+            backgroundColor: "#ddd"
+        }
+    };
+
     const items = [
         {
             key: '1',
@@ -42,8 +56,48 @@ function DetailProduct(){
             children: <SubDetail/>
         }
         ];
+
+        const changeColor =(e)=>{
+            setDataOders({
+                ...dataOders,
+                [e.target.name]:e.target.value
+            })
+        }
+        const changeSize =(e)=>{
+             setDataOders({
+                ...dataOders,
+                [e.target.name]:e.target.value
+            })
+        }
+
+        const navigate = useNavigate();
+        const handleAddtoCart = ()=>{
+            if(user){
+                setDataOders({
+                    ...dataOders,
+                    id_user: user.id
+                })
+                if(Object.values(dataOders).length ===5){
+                    dispatch(addToCart(dataOders.quanlity, dataOders.id, dataOders.color, dataOders.size, dataOders.id_user))
+                    // navigate("/cart")
+                }
+                else{
+                    openNotificationWithIcon('error', "Vui lòng nhập đầy đủ thông tin")
+                }
+            }
+            else{
+                navigate("/login");
+            }
+        }
+         const [api, contextHolder] = notification.useNotification();
+        const openNotificationWithIcon = (type, mes) => {
+        api[type]({
+        message: type === 'success' ? "Thành công" : "Lỗi",
+        description: mes,
+    })}
     return (
         <>
+        {contextHolder}
         {data[0]&&(
             <div className='detailProduct'>
             <Row>
@@ -58,12 +112,12 @@ function DetailProduct(){
                             <div className="detailProduct_borderBottom"></div>
 
                             <div className="detailProduct__infor__color">
-                                <Radio.Group buttonStyle="solid">
+                                <Radio.Group onChange={changeColor} buttonStyle="solid" name='color'>
                                     {data[0].product_variants.map(item =><Radio.Button key={item.id} value={item.color}>{item.color}</Radio.Button>)}
                                 </Radio.Group>
                             </div>
                             <div className="detailProduct__infor__size">
-                                <Radio.Group buttonStyle="solid">
+                                <Radio.Group onChange={changeSize} buttonStyle="solid" name='size'>
                                     {data[0].product_variants.map(item =><Radio.Button key={item.id} value={item.size}>{item.size}</Radio.Button>)}
                                 </Radio.Group>
                             </div>
@@ -71,7 +125,7 @@ function DetailProduct(){
 
                             <div className="detailProduct__infor__select">
                                 <InputNumber size='small' {...sharedProps} placeholder="Outlined" />
-                                <Button className="buttonAdd" type='primary'>THÊM VÀO GIỎ HÀNG</Button>
+                                <Button onClick={handleAddtoCart} className="buttonAdd" type='primary'>THÊM VÀO GIỎ HÀNG</Button>
                                 <Button className="buttonHeart" type='outline' icon={<HeartOutlined />}></Button>
                             </div>
                             <div className="detailProduct_borderBottom"></div>
