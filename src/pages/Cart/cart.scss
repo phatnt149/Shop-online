@@ -1,0 +1,147 @@
+.cart{
+    margin: 0px auto;
+    width: 90vw;
+    margin-bottom: 30px;
+    &__inforUser{
+        background-color: #F9F4DD;
+        padding: 20px 40px 20px 40px;
+        margin-top: 50px;
+        & .border_bottom{
+            border-bottom: 1px solid black;
+            width: 100%;
+            margin-bottom: 20px;
+        }
+        &__title{
+            font-size: 1.5rem;
+            margin-bottom: 20px;
+            text-align: left;
+            color: black;
+        }
+        & .ant-space{
+            width: 100%;
+            & .ant-form-item-row{
+                width: 25vw!important;
+            }
+        }
+        & .ant-select{
+            width: 100%!important;
+            height: 100%!important;
+        }
+        & .ant-select{
+            background-color: #F9F4DD;
+            height: 43.6px!important;
+        }
+    }
+
+
+    &__pay{
+        text-align: left;
+        padding-left: 40px;
+        margin-top: -10px;
+        padding-bottom: 50px;
+        background-color: #F9F4DD;
+        &__title{
+            font-size: 1.5rem;
+            margin-bottom: 20px;
+            text-align: left;
+            color: black;
+        }
+        &__option{
+            background-color: #bdbda4;
+            width: 45%;
+            padding: 20px;
+            border-radius: 10px;
+
+            & .ant-radio-label{
+                margin-right: 30px;
+            }
+        }
+    }
+    &__inforOrder{
+        background-color: #F9F4DD;
+        width: 100%;
+        margin-left: 50px;
+        margin-right: auto;
+        margin-top: 50px;
+        display: flex;
+        flex-direction: column;
+        align-items: center;
+        padding: 20px 0px 40px 0px;
+        color: black;
+        border: 1px solid #ffd000;
+        & .border_bottom{
+            border-bottom: 1px solid black;
+            width: 75%;
+            margin-bottom: 20px;
+        }
+        &__title{
+            font-size: 2rem;
+            margin-bottom: 10px;
+        }
+        &__order{
+            width: 70%;
+            margin-bottom: 20px;
+            &__title{
+                display: flex;
+                justify-content: space-between;
+                font-size: 1.2rem;
+                margin-bottom: 10px;
+
+            }
+            &__product{
+                display: flex;
+                justify-content: space-between;
+                font-size: 0.875rem;
+            }
+        }
+
+        &__total{
+            width: 70%;
+            &__tranpost{
+                display: flex;
+                justify-content: space-between;
+                font-size: 0.875rem;
+                margin-bottom: 10px;
+            }
+            &__pay{
+                display: flex;
+                justify-content: space-between;
+                font-size: 0.875rem;
+                margin-bottom: 10px;
+                &__title__price{
+                    font-size: 1.2rem;
+                    font-weight: 600;
+                }
+            }
+        }
+
+        &__buttonPay{
+            width: 70%;
+            border-radius: 0px;
+            margin-bottom: 10px;
+            background-color: black;
+            color: white;
+            padding: 20px;
+        }
+    }
+}
+
+@media screen and (max-width: 768px) {
+  /* CSS cho màn hình nhỏ hơn 768px */
+    .cart__inforOrder{
+        margin-left: 0px;
+        padding-left: 10px;
+        padding-right: 10px;
+        &__title{
+            font-size: 1.8rem;
+        }
+    }
+    .cart__inforUser{
+        & .ant-space{
+            width: 100%;
+            & .ant-form-item-row{
+                width: 30vw!important;
+            }
+    }
+}
+ }

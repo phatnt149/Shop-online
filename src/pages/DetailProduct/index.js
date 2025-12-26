@@ -77,9 +77,10 @@ function DetailProduct(){
                     ...dataOders,
                     id_user: user.id
                 })
+                // set time out de cho database
                 if(Object.values(dataOders).length ===5){
                     dispatch(addToCart(dataOders.quanlity, dataOders.id, dataOders.color, dataOders.size, dataOders.id_user))
-                    // navigate("/cart")
+                    navigate("/cart")
                 }
                 else{
                     openNotificationWithIcon('error', "Vui lòng nhập đầy đủ thông tin")

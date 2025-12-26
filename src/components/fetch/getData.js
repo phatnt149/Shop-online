@@ -28,3 +28,21 @@ export const getDataUser = async (id)=>{
     const result = await res.json();
     return result;
 }
+
+export const getProvince = async ()=>{
+    const res = await fetch(`https://provinces.open-api.vn/api/v1/p/`)
+    const result = await res.json();
+    return result;
+}
+
+export const getDistrict = async (provinceCode)=>{
+    const res = await fetch(`https://provinces.open-api.vn/api/v1/p/${provinceCode}?depth=2`)
+    const result = await res.json();
+    return result;
+}
+
+export const getWar = async (districtCode)=>{
+    const res = await fetch(`https://provinces.open-api.vn/api/v1/d/${districtCode}?depth=2`)
+    const result = await res.json();
+    return result;
+}
