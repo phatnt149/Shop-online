@@ -1,228 +1,246 @@
-import { Button, Col, Flex, Form, Input, Radio, Row, Select, Space } from "antd";
-import {CreditCardOutlined, DollarOutlined, PhoneOutlined} from "@ant-design/icons"
-import { useEffect, useState} from "react";
-import "./cart.scss"
+/* eslint-disable jsx-a11y/alt-text */
+import { Button, Checkbox, InputNumber, notification } from "antd";
+import { useEffect, useState } from "react";
+import { useDispatch, useSelector } from "react-redux";
+import "./cartList.scss";
 import { formatVND } from "../../components/formatVND";
-import CartLogic from "./CartLogic";
-import { NavLink } from "react-router-dom";
-import { getDistrict, getProvince, getWar } from "../../components/fetch/getData";
-function Cart(){
-    const { dataUser, dataProduct, dataOrder } = CartLogic();
-    const [form] = Form.useForm();
-    const tranpostFee = 25000
-    const { Option } = Select;
-// Set form values khi user có dữ liệu
-    useEffect(() => {
-    if (!dataUser) return;
+import { addToCart, addToOrder, deleteCart, updateCart } from "../../components/actions";
+import { addOrUpdateCartItem, deleteCartItem } from "../DetailProduct/addToCart";
+import { useNavigate } from "react-router-dom";
+import { getDataCard, getDataCartProduct } from "../../components/fetch/getData";
+import { DeleteOutlined } from '@ant-design/icons'
+import Item from "antd/es/list/Item";
 
-    form.setFieldsValue({
-        full_name: dataUser.full_name,
-        phone: dataUser.phone,
-        email: dataUser.email,
-        address: dataUser.address,
+function Cart() {
+  const dispatch = useDispatch();
+  const navigate = useNavigate();
+
+  // ✅ Redux là source of truth
+  const dataCart = useSelector(state => state.reducerCart);
+  const dataUser = useSelector(state => state.reducerLogin);
+
+  const [checkedItems, setCheckedItems] = useState([]);
+  const [api, contextHolder] = notification.useNotification();
+
+  const openNotification = (type, message) => {
+    api[type]({
+      title: type === "success" ? "Thành công" : "Lỗi",
+      description: message
     });
-    }, [dataUser, form]);
+  };
 
-    //get provice, district, war
-    const [provinces, setProvinces] = useState([])
-    const [district, setDistrict] = useState([])
-    const [war, setWar] = useState([])
+  // ================= FETCH CART =================
+  useEffect(() => {
+    if (!dataUser?.id || dataCart.length > 0) return;
 
-    const [selectedProvince, setSelectedProvince] = useState(null);
-    const [selectedDistrict, setSelectedDistrict] = useState(null);
-    const [selectedWard, setSelectedWard] = useState(null);
-    useEffect(()=>{
-        const fetProvince = async()=>{
-            const result = await getProvince();
-            setProvinces(result);
-        }
-        fetProvince();
-    },[])
+    const fetchCart = async () => {
+      try {
+        const resultCart = await getDataCard(dataUser.id);
+        const cartItems = resultCart[0]?.cart_items || [];
 
-    const handleProvinceChange = async (provinceCode) => {
-        setSelectedProvince(provinceCode);
-        setSelectedDistrict(null);
-        setSelectedWard(null);
+        const mergedItems = await Promise.all(
+          cartItems.map(async item => {
+            const productRes = await getDataCartProduct(
+              item.product_id,
+              item.variant_id
+            );
 
-        const result = await getDistrict(provinceCode);
-        setDistrict(result.districts || []);
-        setWar([]);
-        };
+            const product = productRes?.[0];
+            const variantObj = product?.product_variants?.[0];
 
-    
-    const handleDistrictChange = async (districtCode) => {
-        setSelectedDistrict(districtCode);
-        setSelectedWard(null);
+            if (!product || !variantObj) return null;
 
-        const result = await getWar(districtCode);
-        setWar(result.wards || []);
-        };
+            return {
+              id_user: dataUser.id,
+              id_cart: item.cart_id,
+              image: product.thumbnail,
+              name: product.name,
+              price: product.price,
+              product_id: item.product_id,
+              quantity: item.quantity,
+              variant: `${variantObj.color}-${variantObj.size}`,
+              variant_id: variantObj.id
+            };
+          })
+        );
 
-    const handleWardChange = (wardCode) => {
-    setSelectedWard(wardCode);
+        mergedItems
+          .filter(Boolean)
+          .forEach(item =>
+            dispatch(
+              addToCart(
+                item.id_user,
+                item.id_cart,
+                item.quantity,
+                item.image,
+                item.price,
+                item.variant,
+                item.name,
+                item.product_id,
+                item.variant_id
+              )
+            )
+          );
+      } catch (err) {
+        console.error(err);
+        openNotification("error", "Không thể tải giỏ hàng");
+      }
     };
-    return(
-        <>
-        {dataUser&&dataOrder&&dataProduct&&(
-            <div className="cart">
-            <Row>
-                <Col xxl={16} xl={16} lg={16} md={24} sm={24} xs={24}>
-                    <div className="cart__inforUser">
-                        <div className="cart__inforUser__title">THÔNG TIN ĐƠN HÀNG</div>
-                        <div className="border_bottom"></div>
-                        <Form form={form} name="validateOnly" layout="vertical" autoComplete="off">
-                            <Space>
-                                <Form.Item name="full_name" label="Họ và tên" rules={[{ required: true }]}>
-                                    <Input />
-                                </Form.Item>
-                                <Form.Item name="phone" label="Số điện thoại" rules={[{ required: true }]}>
-                                    <Input />
-                                </Form.Item>
-                            </Space>
 
-                            <Space>
-                                <Form.Item name="email" label="Email" rules={[{ required: true }]}>
-                                    <Input />
-                                </Form.Item>
-                                <Form.Item name="city" label="Tỉnh/Thành phố" rules={[{ required: true }]}>
-                                    <Select
-                                    placeholder="Chọn tỉnh/thành phố"
-                                    style={{ width: 200 }}
-                                    value={selectedProvince}
-                                    onChange={handleProvinceChange}
-                                    allowClear
-                                >
-                                    {provinces.length > 0 ? (
-                                    provinces.map((p) => (
-                                        <Option key={p.code} value={p.code}>
-                                        {p.name}
-                                        </Option>
-                                    ))
-                                    ) : (
-                                    <Option key={0} value={0}>
-                                        LOADING...
-                                    </Option>
-                                    )}
+    fetchCart();
+  }, [dataUser?.id, dispatch, dataCart.length]);
 
-                                </Select>
-                                </Form.Item>
-                            </Space>
+  // ================= UPDATE QUANTITY =================
+  const changeInput = async (item, value) => {
+    dispatch(updateCart(item.id_cart, value, item.variant, item.product_id));
 
-                            <Space>
-                                <Form.Item name="district" label="Quận/Huyện" rules={[{ required: true }]}>
-                                    <Select
-                                    placeholder="Chọn quận/huyện"
-                                    style={{ width: 200 }}
-                                    value={selectedDistrict}
-                                    onChange={handleDistrictChange}
-                                    allowClear
-                                    disabled={!district.length}
-                                >
-                                   {district?.map((d) => (
-                                    <Option key={d.code} value={d.code}>{d.name}</Option>))}
-                                    
-                                </Select>
-                                </Form.Item>
-                                <Form.Item name="area" label="Phường/Xã" rules={[{ required: true }]}>
-                                    <Select
-                                    placeholder="Chọn Phường/Xã"
-                                    style={{ width: 200 }}
-                                    value={selectedWard}
-                                    onChange={handleWardChange}
-                                    disabled={!war.length}
-                                >
-                                    {war?.map((w) => (<Option key={w.code} value={w.code}>{w.name}</Option>))}
+    try {
+      await addOrUpdateCartItem(
+        item.id_cart,
+        item.product_id,
+        item.variant_id,
+        value - item.quanlity,
+        item.price
+      );
+    } catch (err) {
+      console.error(err);
+      openNotification("error", "Cập nhật thất bại");
+    }
+  };
 
-                                </Select>
-                                </Form.Item>
-                            </Space>
+  // ================= DELETE ITEM =================
+  const deleteItem = async item => {
+    try {
+      await deleteCartItem(
+        item.id_cart,
+        item.product_id,
+        item.variant_id
+      );
+      dispatch(deleteCart(item.variant, item.name));
+    } catch (err) {
+      console.error(err);
+      openNotification("error", "Xóa thất bại");
+    }
+  };
 
-                            <Space>
-                                <Form.Item name="address" label="Địa chỉ" rules={[{ required: true }]}>
-                                    <Input />
-                                </Form.Item>
-                                <Form.Item name="note" label="Ghi chú" rules={[{ required: true }]}>
-                                    <Input />
-                                </Form.Item>
-                            </Space>
-                        </Form>
-                        <div className="border_bottom"></div>
-                    </div>
-                    <div className="cart__pay">
-                        <div className="cart__pay__title">HÌNH THỨC THANH TOÁN</div>
-                        <div className="cart__pay__option">
-                            <Radio.Group
-                                options={[
-                                    {
-                                    value: 1,
-                                    className: 'option-1',
-                                    label: (
-                                        <Flex gap="small" justify="center" align="center" vertical>
-                                        <DollarOutlined  style={{ fontSize: 18 }} />
-                                        Thanh toán khi nhận hàng 
-                                        </Flex>
-                                    ),
-                                    },
-                                    {
-                                    value: 2,
-                                    className: 'option-2',
-                                    label: (
-                                        <Flex gap="small" justify="center" align="center" vertical>
-                                        <CreditCardOutlined style={{ fontSize: 18 }} />
-                                        Chuyển khoản
-                                        </Flex>
-                                    ),
-                                    }
-                                ]}
-                                /> 
-                        </div>
-                    </div>
-                </Col>
-                <Col>
-                    <div className="cart__inforOrder">
-                        <div className="cart__inforOrder__title">ĐƠN HÀNG CỦA BẠN</div>
-                        <div className="border_bottom"></div>
+  // ================= CHECKBOX =================
+  const checkCart = (item, e) => {
+    if (e.target.checked) {
+      setCheckedItems(prev => [...prev, item]);
+    } else {
+      setCheckedItems(prev =>
+        prev.filter(i => i.variant !== item.variant)
+      );
+    }
+  };
 
-                        <div className="cart__inforOrder__order">
-                            <div className="cart__inforOrder__order__title">
-                                <div className="cart__inforOrder__order__title__title1">Sản phẩm</div>
-                                <div className="cart__inforOrder__order__title__title2">Tổng tiền</div>
-                            </div>
-                            <div className="cart__inforOrder__order__product">
-                                <div className="cart__inforOrder__order__product__name">{dataProduct.name}</div>
-                                <div className="cart__inforOrder__order__product__total">{formatVND(dataProduct.price)}</div>
-                            </div>
-                        </div>
-                        <div className="border_bottom"></div>
+  // ================= PLACE ORDER =================
+  const handleClickOrder = () => {
+    checkedItems.forEach(item =>{
+      dispatch(
+        addToOrder(
+          item.id_user,
+          item.id_cart,
+          item.quanlity,
+          item.image,
+          item.price,
+          item.variant,
+          item.name,
+          item.product_id,
+          item.variant_id
+        ))
+      deleteItem(item)
+      }
+    );
+    navigate("/placeOrder");
+  };
 
-                        <div className="cart__inforOrder__total">
-                            <div className="cart__inforOrder__total__tranpost">
-                                <div className="cart__inforOrder__total__tranpost__title">Phí vận chuyển</div>
-                                <div className="cart__inforOrder__order__product__price">{formatVND(tranpostFee)}</div>
-                            </div>
-                            <div className="cart__inforOrder__total__pay">
-                                <div className="cart__inforOrder__total__pay__title">Tổng thanh toán</div>
-                                <div className="cart__inforOrder__total__pay__title__price">{formatVND(dataProduct.price - tranpostFee)}</div>
-                            </div>
-                        </div>
-                        <div className="border_bottom"></div>
+  const inputProps = {
+    min: 1,
+    max: 10,
+    style: {
+      width: 100,
+      height: 35,
+      marginBottom: -14,
+      backgroundColor: "#ddd"
+    }
+  };
+
+  const [price, setPrice] = useState(0);
+
+  useEffect(() => {
+    if (checkedItems.length > 0) {
+      const total = checkedItems.reduce((sum, item) => {
+        return sum + item.quanlity * item.price;
+      }, 0);
+
+      setPrice(total);
+    } else {
+      setPrice(0);
+    }
+  }, [checkedItems]);
+
+  // ================= RENDER =================
+  return (
+    <>
+      {contextHolder}
+      <div className="cart">
+        {dataCart.length > 0 &&
+          dataCart.map(item => (
+            <div className="cart__item" key={item.variant}>
+
+              <div className="cart__item__checkbox">
+                <Checkbox onChange={e => checkCart(item, e)} />
+              </div>
+              
+              <div className="cart__item__image">
+                <img src={item.image} />
+              </div>
+              <div className="cart__item__content">
+                <div className="cart__item__content__name">{item.name}</div>
 
 
-                        <Button className="cart__inforOrder__buttonPay">THANH TOÁN</Button>
-                        <NavLink to={'/'}>Tiếp tục mua sắm</NavLink>
+                <div className="cart__item__content__variant">{item.variant}</div>
 
+                <div className="cart__item__content__price">
+                  {formatVND(item.price)}
+                </div>
 
-                        <div className="cart__inforOrder__hotline">
-                            <PhoneOutlined />
-                            <span>Hotline 1800 6650</span>
-                        </div>
-                    </div>
-                </Col>
-            </Row>
-        </div>
+                <div className="cart__item__content__total">
+                  {formatVND(item.price * item.quanlity)}
+                </div>
+
+                <div className="cart__item__content__buttonItem">
+                  <InputNumber
+                    {...inputProps}
+                    value={item.quanlity}
+                    onChange={value => changeInput(item, value)}
+                  />
+                </div>
+              </div>
+
+          <div className="cart__item__delete">
+            <Button className="cart__item__content__buttonItem--pc" danger type="primary" onClick={() => deleteItem(item)} icon={<DeleteOutlined />} >
+                    Delete
+                  </Button>
+            <Button className="cart__item__content__buttonItem--mobi" danger type="primary" onClick={() => deleteItem(item)} icon={<DeleteOutlined />} >
+            </Button>
+          </div>
+            </div>
+          ))}
+          <div className="cart__item__price--mobi">
+                Tổng tiền:{formatVND(price)}
+          </div>
+        {checkedItems.length > 0 && (
+          <div className="cart__buttonOrder">
+            <Button type="primary" onClick={handleClickOrder}>
+              Đặt hàng
+            </Button>
+          </div>
         )}
-        </>
-    )
+      </div>
+    </>
+  );
 }
 
 export default Cart;

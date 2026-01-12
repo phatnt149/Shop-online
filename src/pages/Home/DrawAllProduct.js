@@ -3,6 +3,7 @@ import { useEffect, useState } from "react";
 import { Col, Grid, Row } from 'antd';
 import "./DrawAllProduct.scss"
 import { formatVND } from "../../components/formatVND";
+import { NavLink } from "react-router-dom";
 function DrawAllProduct(){
     const SUPABASE_URL = "https://jimndansgmlgpbmwjaor.supabase.co";
     const SUPABASE_ANON_KEY = "sb_publishable_KZce97tls9-ratz4EzFmkg_B_NJ2cg_";
@@ -29,12 +30,14 @@ function DrawAllProduct(){
             <Row gutter={[40, 40]} key={1}>
             {dataProduct && dataProduct.map(item=>(
                 <Col xxl={6} xl={6} lg={8} md={12} sm={12} xs={12} className="product__item" key={item.id}>
-                    <div className="product__image"><img src={`${item.thumbnail}`}/></div>
-                    <div className="product__price">
+                    <NavLink to={`/${item.id}`}>
+                        <div className="product__image"><img src={`${item.thumbnail}`}/></div>
+                        <div className="product__price">
                         <div className="product__price--new"> {formatVND(item.price - (item.price * item.discount) / 100)}</div>
                         <div className="product__price--old">{formatVND(item.price)}</div>
-                    </div>
-                    <div className="product__title">{item.name}</div>
+                        </div>
+                        <div className="product__title">{item.name}</div>
+                    </NavLink>
                 </Col>
         ))}
         </Row>

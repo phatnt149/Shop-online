@@ -1,27 +1,26 @@
-import { Tabs } from "antd";
+import { Grid, Tabs } from "antd";
 import "./orders.scss"
+import YourOrder from "./YourOrder";
+import HistoryOrder from "./HistoryOrder";
 function Orders (){
+    const { useBreakpoint } = Grid;
+    const screens = useBreakpoint();
     const item = [
-        {
-            label: `Giỏ hàng`,
-            key: 1,
-            children: `Content of Tab gio hàng `,
-        },
          {
-            label: `Trạng thái đơn hàng`,
-            key: 2,
-            children: `Content of Tab tt đơn hàng`,
+            label: `Đơn hàng của bạn`,
+            key: 1,
+            children: <YourOrder/>,
         },
         {
             label: `Lịch sử đơn đặt hàng`,
-            key: 3,
-            children: `Content of Tab lịch sử `,
+            key: 2,
+            children: <HistoryOrder/>,
         }
     ]
     return (<>
     <div className="Cart">
         <Tabs
-        tabPlacement="start"
+        tabPlacement="top"
         items={item}
       />
     </div>

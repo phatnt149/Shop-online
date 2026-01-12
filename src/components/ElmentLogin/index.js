@@ -22,7 +22,7 @@ function ElementLogin(){
     const [api, contextHolder] = notification.useNotification();
     const openNotificationWithIcon = (type, mes) => {
         api[type]({
-        message: type === 'success' ? "Thành công" : "Lỗi",
+        title: type === 'success' ? "Thành công" : "Lỗi",
         description: mes,
     })}
     return(

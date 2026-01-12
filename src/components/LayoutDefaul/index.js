@@ -1,10 +1,11 @@
 /* eslint-disable jsx-a11y/alt-text */
 import { NavLink, Outlet } from 'react-router-dom';
 import './LayoutDefaul.scss'
-import { FieldTimeOutlined,PhoneOutlined,HomeOutlined, TruckOutlined, FacebookOutlined, InstagramOutlined, YoutubeOutlined, TikTokOutlined, ShoppingCartOutlined, LogoutOutlined, UserOutlined, LoginOutlined } from '@ant-design/icons';
+import { FieldTimeOutlined,PhoneOutlined,HomeOutlined, TruckOutlined, FacebookOutlined, InstagramOutlined, YoutubeOutlined, TikTokOutlined, ShoppingCartOutlined, LogoutOutlined, UserOutlined, LoginOutlined, GiftOutlined } from '@ant-design/icons';
 import { useDispatch, useSelector } from 'react-redux';
 import { logoutSixDo } from '../actions';
-import { notification } from 'antd';
+import { Badge, notification } from 'antd';
+import { useEffect } from 'react';
 
 function LayoutDefaul(){
     const userLogin = useSelector(state=>state.reducerLogin);
@@ -21,10 +22,19 @@ function LayoutDefaul(){
         dispatch(logoutSixDo());
     }
 
+    const quanlity = useSelector(state =>state.reducerCart)
+    const quanlityCart = quanlity.reduce((sum, item)=>(sum = sum+item.quanlity),0)
+    useEffect(() => {
+    if (isLogin) {
+      openNotificationWithIcon('success', "Chào mừng bạn đã ghé thăm");
+    }
+  }, [isLogin]);
+
+
     const [api, contextHolder] = notification.useNotification();
     const openNotificationWithIcon = (type, mes) => {
         api[type]({
-        message: type === 'success' ? "Thành công" : "Lỗi",
+        title: type === 'success' ? "Thành công" : "Lỗi",
         description: mes,
     })}
     return(
@@ -43,11 +53,11 @@ function LayoutDefaul(){
                             <li><NavLink to={'/accessories'}>Phụ kiện</NavLink></li>
                         </div>
                         <div className='menu__personal'>
-                            <li><NavLink to={'/cart'}><div className="menu__personal__icon"><ShoppingCartOutlined /></div></NavLink></li>
+                            <li><NavLink to={'/cart'}><Badge count={quanlityCart}><div className="menu__personal__icon"><ShoppingCartOutlined /></div></Badge></NavLink></li>
                             {isLogin ? (
                                 <>
-                                {openNotificationWithIcon('success', "Chào mừng bạn đã ghé thăm")}
                                 <li><NavLink onClick={handLogout} to={'/login'}><div className="menu__personal__icon"><LogoutOutlined /></div></NavLink></li>
+                                <li><NavLink to={'/orders'}><div className="menu__personal__icon"><GiftOutlined /></div></NavLink></li>
                                 <li>
                                     <NavLink to={'/profile'}><div className="menu__personal__icon"><UserOutlined /></div></NavLink>
                                 </li>
